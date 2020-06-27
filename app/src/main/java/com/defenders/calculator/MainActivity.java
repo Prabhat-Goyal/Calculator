@@ -6,14 +6,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText editText;
+    TextView editText;
     Button bt1,bt2,bt3,bt4,bt5,bt6,bt7,bt8,bt9,bt0,btPlus,btMin,btAns,btDiv,btMul,btClear;
 
-    float mValueOne, mValueTwo;
-    boolean Addition, Subtraction, Multiplication, Division;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 editText.setText(editText.getText() + "1");
-                editText.setSelection(editText.getText().length());
             }
         });
 
@@ -50,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 editText.setText(editText.getText() + "2");
-                editText.setSelection(editText.getText().length());
             }
         });
 
@@ -58,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 editText.setText(editText.getText() + "3");
-                editText.setSelection(editText.getText().length());
             }
         });
 
@@ -66,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 editText.setText(editText.getText() + "4");
-                editText.setSelection(editText.getText().length());
             }
         });
 
@@ -74,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 editText.setText(editText.getText() + "5");
-                editText.setSelection(editText.getText().length());
             }
         });
 
@@ -82,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 editText.setText(editText.getText() + "6");
-                editText.setSelection(editText.getText().length());
             }
         });
 
@@ -90,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 editText.setText(editText.getText() + "7");
-                editText.setSelection(editText.getText().length());
             }
         });
 
@@ -98,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 editText.setText(editText.getText() + "8");
-                editText.setSelection(editText.getText().length());
             }
         });
 
@@ -106,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 editText.setText(editText.getText() + "9");
-                editText.setSelection(editText.getText().length());
             }
         });
 
@@ -114,88 +104,101 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 editText.setText(editText.getText() + "0");
-                editText.setSelection(editText.getText().length());
             }
         });
 
         btPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (editText == null) {
-                    editText.setText("");
-                }else {
-                    mValueOne = Float.parseFloat(editText.getText() + "");
-                    Addition = true;
-                    editText.setText("+");
+                if (editText.getText() == "") {
+                    editText.setText(editText.getText() + "");
+                } else {
+                    editText.setText(editText.getText() + "+");
                 }
-//                editText.setSelection(editText.getText().length());
+
             }
         });
 
         btMin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mValueOne = Float.parseFloat(editText.getText() + "");
-                Subtraction = true;
-                editText.setText(null);
-                editText.setSelection(editText.getText().length());
+                if (editText.getText() == "") {
+                    editText.setText(editText.getText() + "");
+                } else {
+                    editText.setText(editText.getText() + "-");
+                }
             }
         });
 
         btMul.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mValueOne = Float.parseFloat(editText.getText() + "");
-                Multiplication = true;
-                editText.setText(null);
-                editText.setSelection(editText.getText().length());
+                if (editText.getText() == "") {
+                    editText.setText(editText.getText() + "");
+                } else {
+                    editText.setText(editText.getText() + "*");
+                }
             }
         });
 
         btDiv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mValueOne = Float.parseFloat(editText.getText() + "");
-                Division = true;
-                editText.setText(null);
-                editText.setSelection(editText.getText().length());
+                if (editText.getText() == "") {
+                    editText.setText(editText.getText() + "");
+                } else {
+                    editText.setText(editText.getText() + "/");
+                }
             }
         });
 
         btClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editText.getText().clear();
-                editText.setSelection(editText.getText().length());
+                editText.setText("");
             }
         });
 
         btAns.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mValueTwo = Float.parseFloat(editText.getText() + "");
-                if (Addition == true){
-                    editText.setText(mValueOne + mValueTwo + "");
-                    Addition = false;
+
+                if (editText.getText() == "") {
+                    editText.setText(editText.getText() + "");
+                } else {
+                    Double result =  computeAnother(editText.getText().toString());
+                    editText.setText(result + "");
                 }
 
-                if (Subtraction == true){
-                    editText.setText(mValueOne - mValueTwo + "");
-                    Subtraction = false;
-                }
 
-                if (Multiplication == true){
-                    editText.setText(mValueOne * mValueTwo + "");
-                    Multiplication = false;
-                }
-
-                if (Division == true){
-                    editText.setText(mValueOne / mValueTwo + "");
-                    Division = false;
-                }
-//                editText.setSelection(editText.getText().length());
             }
         });
+    }
+
+    static double computeAnother(String equation) {
+        double result = 0.0;
+        String noMinus = equation.replace("-", "+-");
+        String[] byPluses = noMinus.split("\\+");
+
+        for (String multipl : byPluses) {
+            String[] byMultipl = multipl.split("\\*");
+            double multiplResult = 1.0;
+            for (String operand : byMultipl) {
+                if (operand.contains("/")) {
+                    String[] division = operand.split("\\/");
+                    double divident = Double.parseDouble(division[0]);
+                    for (int i = 1; i < division.length; i++) {
+                        divident /= Double.parseDouble(division[i]);
+                    }
+                    multiplResult *= divident;
+                } else {
+                    multiplResult *= Double.parseDouble(operand);
+                }
+            }
+            result += multiplResult;
+        }
+
+        return result;
     }
 
 
